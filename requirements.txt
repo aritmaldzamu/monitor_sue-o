@@ -1,0 +1,62 @@
+# ─── Sleep Monitor — Dependencias ─────────────────────────────────────────────
+# Instaladas en el entorno virtual (Windows / PC desarrollo)
+# pip install -r requirements.txt
+
+# ── Firebase / Google Cloud ────────────────────────────────────────────────────
+firebase_admin==7.4.0
+google-api-core==2.30.3
+google-auth==2.49.2
+google-cloud-core==2.5.1
+google-cloud-firestore==2.26.0
+google-cloud-storage==3.10.1
+google-crc32c==1.8.0
+google-resumable-media==2.8.2
+googleapis-common-protos==1.74.0
+grpcio==1.80.0
+grpcio-status==1.80.0
+proto-plus==1.27.2
+protobuf==6.33.6
+
+# ── PyQt5 / UI ────────────────────────────────────────────────────────────────
+PyQt5==5.15.11
+pyqtgraph==0.14.0
+
+# ── Visión / OpenCV ───────────────────────────────────────────────────────────
+opencv-python==4.13.0.92
+numpy==2.4.4
+mediapipe
+
+# ── Excel export ──────────────────────────────────────────────────────────────
+openpyxl==3.1.5
+
+# ── HTTP / Auth ───────────────────────────────────────────────────────────────
+anyio==4.13.0
+CacheControl==0.14.4
+certifi==2026.2.25
+cffi==2.0.0
+charset-normalizer==3.4.7
+colorama==0.4.6
+cryptography==46.0.7
+h11==0.16.0
+h2==4.3.0
+hpack==4.1.0
+httpcore==1.0.9
+httpx==0.28.1
+hyperframe==6.1.0
+idna==3.11
+msgpack==1.1.2
+pyasn1==0.6.3
+pyasn1_modules==0.4.2
+pycparser==3.0
+PyJWT==2.12.1
+requests==2.33.1
+typing_extensions==4.15.0
+urllib3==2.6.3
+
+# ─── Dependencias SOLO para Raspberry Pi ──────────────────────────────────────
+# NO instalar en Windows. Ejecutar en la RPi:
+#   pip install RPi.GPIO adafruit-circuitpython-dht
+#
+# RPi.GPIO          → Control GPIO (ventiladores L298N, PIR)
+# adafruit-circuitpython-dht → Sensor DHT11 (Steren ARD-360)
+# adafruit-blinka   → Capa de compatibilidad CircuitPython (requerida por dht)

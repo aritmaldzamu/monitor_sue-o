@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry"><rect><x>0</x><y>0</y><width>1600</width><height>960</height></rect></property>
+  <property name="minimumSize"><size><width>1280</width><height>800</height></size></property>
+  <property name="windowTitle"><string>Somnus · Monitor de Calidad de Sueño</string></property>
+  <property name="styleSheet">
+   <string notr="true">
+QMainWindow, QWidget#centralWidget { background: #0b0b0c; color: #ededf0; font-family: &quot;SF Pro Display&quot;, &quot;SF Pro Text&quot;, &quot;-apple-system&quot;, &quot;BlinkMacSystemFont&quot;, &quot;Segoe UI&quot;, sans-serif; }
+QFrame#cardHero, QFrame#cardTemp, QFrame#cardHum, QFrame#cardLux, QFrame#cardMov, QFrame#cardChart, QFrame[role=&quot;page-card&quot;] {
+    background: #131315; border: 1px solid #242428; border-radius: 20px;
+}
+QFrame#topBar { background: #0b0b0c; border: none; border-bottom: 1px solid #242428; }
+QLabel#brandMark { background: #ededf0; color: #0b0b0c; font-size: 20px; font-weight: 600; border-radius: 10px; min-width:38px;min-height:38px;max-width:38px;max-height:38px; qproperty-alignment: AlignCenter; }
+QLabel#brandName { font-size: 17px; font-weight: 600; color: #ededf0; letter-spacing: -0.3px; }
+QLabel#brandSub { font-size: 10px; color: #8a8a93; letter-spacing: 1.2px; font-weight: 600; }
+QFrame#navBar { background: #141416; border: 1px solid #242428; border-radius: 20px; }
+QPushButton[nav=&quot;true&quot;] { background: transparent; color: #8a8a93; border: none; padding: 8px 18px; border-radius: 16px; font-size: 13px; font-weight: 500; }
+QPushButton[nav=&quot;true&quot;]:hover { color: #ededf0; }
+QPushButton[nav=&quot;true&quot;][active=&quot;true&quot;] { background: #ededf0; color: #0b0b0c; font-weight: 600; }
+QLabel#clockLbl { font-size: 13px; color: #c7c7cc; font-weight: 500; }
+QFrame#statusPill { background: transparent; border: 1px solid #242428; border-radius: 14px; }
+QLabel#statusDot { background: #b8f2b8; border-radius: 4px; min-width:8px;max-width:8px;min-height:8px;max-height:8px; }
+QLabel#statusText { color: #c7c7cc; font-size: 12px; font-weight: 500; }
+QLabel#avatarLbl { background: #1a1a1d; color: #c7c7cc; border: 1px solid #2e2e34; border-radius: 18px; min-width:36px;max-width:36px;min-height:36px;max-height:36px; font-size: 12px; font-weight: 600; qproperty-alignment: AlignCenter; }
+QLabel[role=&quot;cardTitle&quot;] { font-size: 11px; color: #8a8a93; letter-spacing: 1.6px; font-weight: 600; }
+QLabel[role=&quot;cardSub&quot;] { font-size: 11px; color: #5a5a62; }
+QLabel[role=&quot;badge&quot;] { font-size: 10px; color: #cfcfd5; font-weight: 600; letter-spacing: 0.8px; border: 1px solid #4a4a52; border-radius: 10px; padding: 3px 10px; }
+QLabel[role=&quot;badgeWarn&quot;] { font-size: 10px; color: #e6d28e; font-weight: 600; letter-spacing: 0.8px; border: 1px solid #5a4f2a; background: #1f1c10; border-radius: 10px; padding: 3px 10px; }
+QLabel[role=&quot;value&quot;] { font-size: 52px; color: #ededf0; font-weight: 300; letter-spacing: -1.8px; }
+QLabel[role=&quot;unit&quot;] { font-size: 16px; color: #8a8a93; }
+QLabel[role=&quot;numBig&quot;] { font-size: 44px; color: #ededf0; font-weight: 300; letter-spacing: -1.4px; }
+QLabel[role=&quot;pageH1&quot;] { font-size: 36px; color: #ededf0; font-weight: 300; letter-spacing: -1.2px; }
+QLabel[role=&quot;pageSub&quot;] { font-size: 13px; color: #8a8a93; font-weight: 400; }
+QFrame[role=&quot;chip&quot;] { background: #141416; border: 1px solid #242428; border-radius: 14px; }
+QLabel[role=&quot;chipText&quot;] { font-size: 12px; color: #c7c7cc; font-weight: 500; }
+QLabel[role=&quot;chipDot&quot;] { background: #b8f2b8; border-radius: 4px; min-width:8px;max-width:8px;min-height:8px;max-height:8px; }
+QPushButton[variant=&quot;ghost&quot;] { background: #18181b; color: #c7c7cc; border: 1px solid #2e2e34; border-radius: 10px; padding: 9px 14px; font-size: 12px; font-weight: 500; }
+QPushButton[variant=&quot;ghost&quot;]:hover { border: 1px solid #4a4a52; color: #ededf0; }
+QPushButton[variant=&quot;primary&quot;] { background: #ededf0; color: #0b0b0c; border: 1px solid #ededf0; border-radius: 10px; padding: 12px 16px; font-size: 12px; font-weight: 600; }
+QPushButton[variant=&quot;primary&quot;]:hover { background: #ffffff; }
+QFrame[role=&quot;sep&quot;] { background: transparent; border: none; border-top: 1px dashed #2e2e34; }
+QLabel[role=&quot;actLabel&quot;] { font-size: 10px; color: #5a5a62; letter-spacing: 1.4px; font-weight: 600; }
+QFrame#chartArea, QFrame[role=&quot;plotArea&quot;] { background: #0e0e10; border: 1px solid #1f1f22; border-radius: 12px; }
+QLabel[role=&quot;placeholder&quot;] { color: #5a5a62; font-size: 11px; font-weight: 500; qproperty-alignment: AlignCenter; }
+QWidget#scoreRing { background: transparent; }
+QWidget[role=&quot;miniBars&quot;] { background: transparent; }
+
+/* config form */
+QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox { background:#18181b; color:#ededf0; border:1px solid #2e2e34; border-radius:8px; padding:8px 10px; font-size:13px; }
+QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus, QComboBox:focus { border:1px solid #ededf0; }
+QCheckBox { color:#c7c7cc; font-size:12px; spacing:8px; }
+QCheckBox::indicator { width:16px; height:16px; border:1px solid #4a4a52; border-radius:4px; background:#18181b; }
+QCheckBox::indicator:checked { background:#ededf0; border:1px solid #ededf0; }
+
+/* table */
+QTableWidget { background:#0e0e10; color:#ededf0; border:1px solid #1f1f22; border-radius:12px; gridline-color:#1f1f22; font-size:12px; }
+QTableWidget::item { padding:8px; }
+QTableWidget::item:selected { background:#1f1f22; color:#ededf0; }
+QHeaderView::section { background:#131315; color:#8a8a93; border:none; border-bottom:1px solid #242428; padding:8px; font-size:10px; font-weight:600; letter-spacing:1.2px; }
+
+QScrollBar:vertical { background: #131315; width: 8px; }
+QScrollBar::handle:vertical { background: #2e2e34; border-radius: 4px; }
+   </string>
+  </property>
+
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="rootLayout">
+    <property name="spacing"><number>0</number></property>
+    <property name="leftMargin"><number>0</number></property><property name="topMargin"><number>0</number></property>
+    <property name="rightMargin"><number>0</number></property><property name="bottomMargin"><number>0</number></property>
+
+    <!-- ================= TOP BAR ================= -->
+    <item>
+     <widget class="QFrame" name="topBar">
+      <property name="minimumSize"><size><width>0</width><height>80</height></size></property>
+      <property name="maximumSize"><size><width>16777215</width><height>80</height></size></property>
+      <layout class="QHBoxLayout" name="topBarLayout">
+       <property name="leftMargin"><number>32</number></property><property name="topMargin"><number>16</number></property>
+       <property name="rightMargin"><number>32</number></property><property name="bottomMargin"><number>16</number></property>
+       <property name="spacing"><number>18</number></property>
+       <item><widget class="QLabel" name="brandMark"><property name="text"><string>S</string></property></widget></item>
+       <item>
+        <layout class="QVBoxLayout" name="brandText"><property name="spacing"><number>0</number></property>
+         <item><widget class="QLabel" name="brandName"><property name="text"><string>Somnus · Monitor de Sueño</string></property></widget></item>
+         <item><widget class="QLabel" name="brandSub"><property name="text"><string>ARQUI. AVANZADAS · PROYECTO FINAL</string></property></widget></item>
+        </layout>
+       </item>
+       <item><spacer name="topSpacerL"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
+       <item>
+        <widget class="QFrame" name="navBar">
+         <layout class="QHBoxLayout" name="navLayout">
+          <property name="leftMargin"><number>4</number></property><property name="topMargin"><number>4</number></property>
+          <property name="rightMargin"><number>4</number></property><property name="bottomMargin"><number>4</number></property>
+          <property name="spacing"><number>2</number></property>
+          <item><widget class="QPushButton" name="btnNavDashboard"><property name="text"><string>Dashboard</string></property><property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property><property name="checkable"><bool>true</bool></property><property name="checked"><bool>true</bool></property><property name="autoExclusive"><bool>true</bool></property><property name="nav" stdset="0"><string>true</string></property><property name="active" stdset="0"><string>true</string></property></widget></item>
+          <item><widget class="QPushButton" name="btnNavHistorico"><property name="text"><string>Histórico</string></property><property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property><property name="checkable"><bool>true</bool></property><property name="autoExclusive"><bool>true</bool></property><property name="nav" stdset="0"><string>true</string></property></widget></item>
+          <item><widget class="QPushButton" name="btnNavConfig"><property name="text"><string>Configuración</string></property><property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property><property name="checkable"><bool>true</bool></property><property name="autoExclusive"><bool>true</bool></property><property name="nav" stdset="0"><string>true</string></property></widget></item>
+          <item><widget class="QPushButton" name="btnNavReporte"><property name="text"><string>Reporte</string></property><property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property><property name="checkable"><bool>true</bool></property><property name="autoExclusive"><bool>true</bool></property><property name="nav" stdset="0"><string>true</string></property></widget></item>
+         </layout>
+        </widget>
+       </item>
+       <item><spacer name="topSpacerR"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
+       <item><widget class="QLabel" name="clockLbl"><property name="text"><string>23:04:12</string></property></widget></item>
+       <item>
+        <widget class="QFrame" name="statusPill">
+         <layout class="QHBoxLayout" name="statusLayout">
+          <property name="leftMargin"><number>12</number></property><property name="topMargin"><number>6</number></property>
+          <property name="rightMargin"><number>14</number></property><property name="bottomMargin"><number>6</number></property>
+          <property name="spacing"><number>8</number></property>
+          <item><widget class="QLabel" name="statusDot"><property name="text"><string/></property></widget></item>
+          <item><widget class="QLabel" name="statusText"><property name="text"><string>Firestore · en línea</string></property></widget></item>
+         </layout>
+        </widget>
+       </item>
+       <item><widget class="QLabel" name="avatarLbl"><property name="text"><string>AR</string></property></widget></item>
+      </layout>
+     </widget>
+    </item>
+
+    <!-- ================= STACK ================= -->
+    <item>
+     <widget class="QStackedWidget" name="pages">
+      <property name="currentIndex"><number>0</number></property>
+
+      <!-- ============ PAGE 0 · DASHBOARD ============ -->
+      <widget class="QWidget" name="pageDashboard">
+       <layout class="QVBoxLayout" name="dashLayout">
+        <property name="leftMargin"><number>28</number></property><property name="topMargin"><number>24</number></property>
+        <property name="rightMargin"><number>28</number></property><property name="bottomMargin"><number>24</number></property>
+        <property name="spacing"><number>22</number></property>
+
+        <!-- HERO -->
+        <item>
+         <widget class="QFrame" name="cardHero">
+          <property name="minimumSize"><size><width>0</width><height>230</height></size></property>
+          <property name="maximumSize"><size><width>16777215</width><height>240</height></size></property>
+          <layout class="QHBoxLayout" name="heroLayout">
+           <property name="leftMargin"><number>28</number></property><property name="topMargin"><number>22</number></property>
+           <property name="rightMargin"><number>28</number></property><property name="bottomMargin"><number>22</number></property>
+           <property name="spacing"><number>28</number></property>
+           <item><widget class="QWidget" name="scoreRing" native="true"><property name="minimumSize"><size><width>200</width><height>200</height></size></property><property name="maximumSize"><size><width>200</width><height>200</height></size></property></widget></item>
+           <item>
+            <layout class="QVBoxLayout" name="heroMid"><property name="spacing"><number>8</number></property>
+             <item><widget class="QLabel" name="lblHeroTitle"><property name="text"><string>Índice de calidad de sueño</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item>
+             <item><widget class="QLabel" name="lblHeroBig"><property name="text"><string>Reparador — sesión de 3h 42m</string></property><property name="role" stdset="0"><string>numBig</string></property></widget></item>
+             <item><spacer name="heroMidSp"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>10</height></size></property></spacer></item>
+             <item>
+              <layout class="QHBoxLayout" name="chipsLayout"><property name="spacing"><number>8</number></property>
+               <item><widget class="QFrame" name="chipRec"><property name="role" stdset="0"><string>chip</string></property><layout class="QHBoxLayout"><property name="leftMargin"><number>10</number></property><property name="topMargin"><number>6</number></property><property name="rightMargin"><number>12</number></property><property name="bottomMargin"><number>6</number></property><property name="spacing"><number>8</number></property><item><widget class="QLabel" name="chipRecDot"><property name="text"><string/></property><property name="role" stdset="0"><string>chipDot</string></property></widget></item><item><widget class="QLabel" name="chipRecTxt"><property name="text"><string>Grabando</string></property><property name="role" stdset="0"><string>chipText</string></property></widget></item></layout></widget></item>
+               <item><widget class="QFrame" name="chipInicio"><property name="role" stdset="0"><string>chip</string></property><layout class="QHBoxLayout"><property name="leftMargin"><number>12</number></property><property name="topMargin"><number>6</number></property><property name="rightMargin"><number>12</number></property><property name="bottomMargin"><number>6</number></property><item><widget class="QLabel" name="chipInicioTxt"><property name="text"><string>Inicio  23:04</string></property><property name="role" stdset="0"><string>chipText</string></property></widget></item></layout></widget></item>
+               <item><widget class="QFrame" name="chipMuestra"><property name="role" stdset="0"><string>chip</string></property><layout class="QHBoxLayout"><property name="leftMargin"><number>12</number></property><property name="topMargin"><number>6</number></property><property name="rightMargin"><number>12</number></property><property name="bottomMargin"><number>6</number></property><item><widget class="QLabel" name="chipMuestraTxt"><property name="text"><string>Muestra  142/360</string></property><property name="role" stdset="0"><string>chipText</string></property></widget></item></layout></widget></item>
+               <item><widget class="QFrame" name="chipIntervalo"><property name="role" stdset="0"><string>chip</string></property><layout class="QHBoxLayout"><property name="leftMargin"><number>12</number></property><property name="topMargin"><number>6</number></property><property name="rightMargin"><number>12</number></property><property name="bottomMargin"><number>6</number></property><item><widget class="QLabel" name="chipIntervaloTxt"><property name="text"><string>Intervalo  5 s</string></property><property name="role" stdset="0"><string>chipText</string></property></widget></item></layout></widget></item>
+               <item><widget class="QFrame" name="chipFirestore"><property name="role" stdset="0"><string>chip</string></property><layout class="QHBoxLayout"><property name="leftMargin"><number>12</number></property><property name="topMargin"><number>6</number></property><property name="rightMargin"><number>12</number></property><property name="bottomMargin"><number>6</number></property><item><widget class="QLabel" name="chipFirestoreTxt"><property name="text"><string>Firestore  /lecturas/aR9k</string></property><property name="role" stdset="0"><string>chipText</string></property></widget></item></layout></widget></item>
+               <item><spacer name="chipsSp"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="heroActions"><property name="spacing"><number>10</number></property>
+             <item><widget class="QPushButton" name="btnExportExcel"><property name="text"><string>EXPORTAR A EXCEL</string></property><property name="variant" stdset="0"><string>primary</string></property><property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property></widget></item>
+             <item><widget class="QPushButton" name="btnReporte"><property name="text"><string>GENERAR REPORTE</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item>
+             <item><widget class="QPushButton" name="btnHistorico"><property name="text"><string>VER HISTÓRICO</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <!-- 4 SENSORS -->
+        <item>
+         <layout class="QHBoxLayout" name="sensorsRow"><property name="spacing"><number>22</number></property>
+          <item>
+           <widget class="QFrame" name="cardTemp">
+            <layout class="QVBoxLayout" name="tempLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>22</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>22</number></property><property name="spacing"><number>10</number></property>
+             <item><layout class="QHBoxLayout" name="tempHeader"><item><layout class="QVBoxLayout"><property name="spacing"><number>2</number></property><item><widget class="QLabel" name="lblTempTitle"><property name="text"><string>TEMPERATURA</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item><item><widget class="QLabel" name="lblTempSub"><property name="text"><string>BME280 · °C · rango 18–22</string></property><property name="role" stdset="0"><string>cardSub</string></property></widget></item></layout></item><item><spacer name="tempHdSp"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item><item><widget class="QLabel" name="lblTempBadge"><property name="text"><string>ÓPTIMO</string></property><property name="role" stdset="0"><string>badge</string></property></widget></item></layout></item>
+             <item><layout class="QHBoxLayout" name="tempValueRow"><property name="spacing"><number>6</number></property><item><widget class="QLabel" name="lblTempValue"><property name="text"><string>21.4</string></property><property name="role" stdset="0"><string>value</string></property></widget></item><item><widget class="QLabel" name="lblTempUnit"><property name="text"><string>°C</string></property><property name="role" stdset="0"><string>unit</string></property><property name="alignment"><set>Qt::AlignBottom|Qt::AlignLeading</set></property></widget></item><item><spacer name="tempValSp"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item></layout></item>
+             <item><widget class="QWidget" name="tempBars" native="true"><property name="minimumSize"><size><width>0</width><height>56</height></size></property><property name="maximumSize"><size><width>16777215</width><height>56</height></size></property><property name="role" stdset="0"><string>miniBars</string></property></widget></item>
+             <item><widget class="QFrame" name="tempSep"><property name="minimumSize"><size><width>0</width><height>1</height></size></property><property name="maximumSize"><size><width>16777215</width><height>1</height></size></property><property name="role" stdset="0"><string>sep</string></property></widget></item>
+             <item><widget class="QLabel" name="tempActLabel"><property name="text"><string>ACTUADOR · SIMULADOR TÉRMICO</string></property><property name="role" stdset="0"><string>actLabel</string></property></widget></item>
+             <item><layout class="QHBoxLayout" name="tempActBtns"><property name="spacing"><number>6</number></property><item><widget class="QPushButton" name="btnTempCalor"><property name="text"><string>CALOR</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item><item><widget class="QPushButton" name="btnTempFrio"><property name="text"><string>FRÍO</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item><item><widget class="QPushButton" name="btnTempFan"><property name="text"><string>VENTILADOR</string></property><property name="variant" stdset="0"><string>primary</string></property></widget></item></layout></item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="cardHum">
+            <layout class="QVBoxLayout" name="humLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>22</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>22</number></property><property name="spacing"><number>10</number></property>
+             <item><layout class="QHBoxLayout" name="humHeader"><item><layout class="QVBoxLayout"><property name="spacing"><number>2</number></property><item><widget class="QLabel" name="lblHumTitle"><property name="text"><string>HUMEDAD</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item><item><widget class="QLabel" name="lblHumSub"><property name="text"><string>BME280 · % · rango 40–60</string></property><property name="role" stdset="0"><string>cardSub</string></property></widget></item></layout></item><item><spacer name="humHdSp"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item><item><widget class="QLabel" name="lblHumBadge"><property name="text"><string>ÓPTIMO</string></property><property name="role" stdset="0"><string>badge</string></property></widget></item></layout></item>
+             <item><layout class="QHBoxLayout" name="humValueRow"><property name="spacing"><number>6</number></property><item><widget class="QLabel" name="lblHumValue"><property name="text"><string>52</string></property><property name="role" stdset="0"><string>value</string></property></widget></item><item><widget class="QLabel" name="lblHumUnit"><property name="text"><string>%</string></property><property name="role" stdset="0"><string>unit</string></property><property name="alignment"><set>Qt::AlignBottom|Qt::AlignLeading</set></property></widget></item><item><spacer name="humValSp"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item></layout></item>
+             <item><widget class="QWidget" name="humBars" native="true"><property name="minimumSize"><size><width>0</width><height>56</height></size></property><property name="maximumSize"><size><width>16777215</width><height>56</height></size></property><property name="role" stdset="0"><string>miniBars</string></property></widget></item>
+             <item><widget class="QFrame" name="humSep"><property name="minimumSize"><size><width>0</width><height>1</height></size></property><property name="maximumSize"><size><width>16777215</width><height>1</height></size></property><property name="role" stdset="0"><string>sep</string></property></widget></item>
+             <item><widget class="QLabel" name="humActLabel"><property name="text"><string>ACTUADOR · HUMIDIFICADOR</string></property><property name="role" stdset="0"><string>actLabel</string></property></widget></item>
+             <item><layout class="QHBoxLayout" name="humActBtns"><property name="spacing"><number>6</number></property><item><widget class="QPushButton" name="btnHumOn"><property name="text"><string>HUMIDIFICAR</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item><item><widget class="QPushButton" name="btnHumExtract"><property name="text"><string>EXTRAER</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item><item><spacer name="humActSp"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item></layout></item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="cardLux">
+            <layout class="QVBoxLayout" name="luxLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>22</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>22</number></property><property name="spacing"><number>10</number></property>
+             <item><layout class="QHBoxLayout" name="luxHeader"><item><layout class="QVBoxLayout"><property name="spacing"><number>2</number></property><item><widget class="QLabel" name="lblLuxTitle"><property name="text"><string>LUZ AMBIENTAL</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item><item><widget class="QLabel" name="lblLuxSub"><property name="text"><string>LDR · lux · ideal &lt; 10</string></property><property name="role" stdset="0"><string>cardSub</string></property></widget></item></layout></item><item><spacer name="luxHdSp"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item><item><widget class="QLabel" name="lblLuxBadge"><property name="text"><string>ÓPTIMO</string></property><property name="role" stdset="0"><string>badge</string></property></widget></item></layout></item>
+             <item><layout class="QHBoxLayout" name="luxValueRow"><property name="spacing"><number>6</number></property><item><widget class="QLabel" name="lblLuxValue"><property name="text"><string>6</string></property><property name="role" stdset="0"><string>value</string></property></widget></item><item><widget class="QLabel" name="lblLuxUnit"><property name="text"><string>lux</string></property><property name="role" stdset="0"><string>unit</string></property><property name="alignment"><set>Qt::AlignBottom|Qt::AlignLeading</set></property></widget></item><item><spacer name="luxValSp"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item></layout></item>
+             <item><widget class="QWidget" name="luxBars" native="true"><property name="minimumSize"><size><width>0</width><height>56</height></size></property><property name="maximumSize"><size><width>16777215</width><height>56</height></size></property><property name="role" stdset="0"><string>miniBars</string></property></widget></item>
+             <item><widget class="QFrame" name="luxSep"><property name="minimumSize"><size><width>0</width><height>1</height></size></property><property name="maximumSize"><size><width>16777215</width><height>1</height></size></property><property name="role" stdset="0"><string>sep</string></property></widget></item>
+             <item><widget class="QLabel" name="luxActLabel"><property name="text"><string>ACTUADOR · LED LÁMPARA</string></property><property name="role" stdset="0"><string>actLabel</string></property></widget></item>
+             <item><layout class="QHBoxLayout" name="luxActBtns"><property name="spacing"><number>6</number></property><item><widget class="QPushButton" name="btnLuxOn"><property name="text"><string>ENCENDER</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item><item><widget class="QPushButton" name="btnLuxOff"><property name="text"><string>APAGAR</string></property><property name="variant" stdset="0"><string>primary</string></property></widget></item><item><widget class="QPushButton" name="btnLuxAuto"><property name="text"><string>AUTO</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item></layout></item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="cardMov">
+            <layout class="QVBoxLayout" name="movLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>22</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>22</number></property><property name="spacing"><number>10</number></property>
+             <item><layout class="QHBoxLayout" name="movHeader"><item><layout class="QVBoxLayout"><property name="spacing"><number>2</number></property><item><widget class="QLabel" name="lblMovTitle"><property name="text"><string>MOVIMIENTO</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item><item><widget class="QLabel" name="lblMovSub"><property name="text"><string>MPU6050 · 0.0 – 1.0 normalizado</string></property><property name="role" stdset="0"><string>cardSub</string></property></widget></item></layout></item><item><spacer name="movHdSp"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item><item><widget class="QLabel" name="lblMovBadge"><property name="text"><string>LEVE</string></property><property name="role" stdset="0"><string>badgeWarn</string></property></widget></item></layout></item>
+             <item><layout class="QHBoxLayout" name="movValueRow"><property name="spacing"><number>6</number></property><item><widget class="QLabel" name="lblMovValue"><property name="text"><string>0.18</string></property><property name="role" stdset="0"><string>value</string></property></widget></item><item><spacer name="movValSp"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item></layout></item>
+             <item><widget class="QWidget" name="movBars" native="true"><property name="minimumSize"><size><width>0</width><height>56</height></size></property><property name="maximumSize"><size><width>16777215</width><height>56</height></size></property><property name="role" stdset="0"><string>miniBars</string></property></widget></item>
+             <item><widget class="QFrame" name="movSep"><property name="minimumSize"><size><width>0</width><height>1</height></size></property><property name="maximumSize"><size><width>16777215</width><height>1</height></size></property><property name="role" stdset="0"><string>sep</string></property></widget></item>
+             <item><widget class="QLabel" name="movActLabel"><property name="text"><string>ACTUADOR · ALARMA / LÁMPARA</string></property><property name="role" stdset="0"><string>actLabel</string></property></widget></item>
+             <item><layout class="QHBoxLayout" name="movActBtns"><property name="spacing"><number>6</number></property><item><widget class="QPushButton" name="btnMovAwake"><property name="text"><string>DESPIERTO</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item><item><widget class="QPushButton" name="btnMovSnooze"><property name="text"><string>SNOOZE</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item><item><spacer name="movActSp"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item></layout></item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+
+        <!-- CHART -->
+        <item>
+         <widget class="QFrame" name="cardChart">
+          <property name="minimumSize"><size><width>0</width><height>240</height></size></property>
+          <layout class="QVBoxLayout" name="chartLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>22</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>22</number></property><property name="spacing"><number>10</number></property>
+           <item><layout class="QHBoxLayout" name="chartHeader"><item><layout class="QVBoxLayout"><property name="spacing"><number>2</number></property><item><widget class="QLabel" name="lblChartTitle"><property name="text"><string>SERIE TEMPORAL · ÚLTIMAS 8 H</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item><item><widget class="QLabel" name="lblChartSub"><property name="text"><string>Variables normalizadas 0-1</string></property><property name="role" stdset="0"><string>cardSub</string></property></widget></item></layout></item><item><spacer name="chartSp"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item><item><widget class="QPushButton" name="btnChartAll"><property name="text"><string>TODAS</string></property><property name="variant" stdset="0"><string>primary</string></property></widget></item><item><widget class="QPushButton" name="btnChartTemp"><property name="text"><string>TEMP</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item><item><widget class="QPushButton" name="btnChartHum"><property name="text"><string>HUM</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item><item><widget class="QPushButton" name="btnChartLux"><property name="text"><string>LUZ</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item><item><widget class="QPushButton" name="btnChartMov"><property name="text"><string>MOV</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item></layout></item>
+           <item><widget class="QFrame" name="chartArea"><layout class="QVBoxLayout"><item><widget class="QLabel" name="chartPlaceholder"><property name="text"><string>[ pyqtgraph.PlotWidget — 4 series normalizadas ]</string></property><property name="role" stdset="0"><string>placeholder</string></property></widget></item></layout></widget></item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- ============ PAGE 1 · HISTÓRICO ============ -->
+      <widget class="QWidget" name="pageHistorico">
+       <layout class="QVBoxLayout" name="histLayout">
+        <property name="leftMargin"><number>28</number></property><property name="topMargin"><number>24</number></property>
+        <property name="rightMargin"><number>28</number></property><property name="bottomMargin"><number>24</number></property>
+        <property name="spacing"><number>22</number></property>
+
+        <item>
+         <layout class="QHBoxLayout" name="histHeader"><property name="spacing"><number>14</number></property>
+          <item><layout class="QVBoxLayout"><property name="spacing"><number>4</number></property>
+           <item><widget class="QLabel" name="lblHistTitle"><property name="text"><string>Histórico de sesiones</string></property><property name="role" stdset="0"><string>pageH1</string></property></widget></item>
+           <item><widget class="QLabel" name="lblHistSub"><property name="text"><string>Lecturas almacenadas en Firestore — selecciona una sesión para visualizarla</string></property><property name="role" stdset="0"><string>pageSub</string></property></widget></item>
+          </layout></item>
+          <item><spacer name="histSp"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
+          <item><widget class="QComboBox" name="cmbHistRango"><property name="minimumSize"><size><width>160</width><height>0</height></size></property><item><property name="text"><string>Última semana</string></property></item><item><property name="text"><string>Último mes</string></property></item><item><property name="text"><string>Todo</string></property></item></widget></item>
+          <item><widget class="QPushButton" name="btnHistRefresh"><property name="text"><string>REFRESCAR</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item>
+          <item><widget class="QPushButton" name="btnHistExportar"><property name="text"><string>EXPORTAR A EXCEL</string></property><property name="variant" stdset="0"><string>primary</string></property></widget></item>
+         </layout>
+        </item>
+
+        <!-- KPIs -->
+        <item>
+         <layout class="QHBoxLayout" name="histKpis"><property name="spacing"><number>22</number></property>
+          <item><widget class="QFrame" name="kpiSesiones"><property name="role" stdset="0"><string>page-card</string></property><layout class="QVBoxLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>18</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>18</number></property><property name="spacing"><number>6</number></property><item><widget class="QLabel"><property name="text"><string>SESIONES</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item><item><widget class="QLabel" name="lblKpiSesiones"><property name="text"><string>14</string></property><property name="role" stdset="0"><string>numBig</string></property></widget></item></layout></widget></item>
+          <item><widget class="QFrame" name="kpiPromedio"><property name="role" stdset="0"><string>page-card</string></property><layout class="QVBoxLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>18</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>18</number></property><property name="spacing"><number>6</number></property><item><widget class="QLabel"><property name="text"><string>SCORE PROMEDIO</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item><item><widget class="QLabel" name="lblKpiPromedio"><property name="text"><string>72.4</string></property><property name="role" stdset="0"><string>numBig</string></property></widget></item></layout></widget></item>
+          <item><widget class="QFrame" name="kpiHoras"><property name="role" stdset="0"><string>page-card</string></property><layout class="QVBoxLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>18</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>18</number></property><property name="spacing"><number>6</number></property><item><widget class="QLabel"><property name="text"><string>HORAS TOTALES</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item><item><widget class="QLabel" name="lblKpiHoras"><property name="text"><string>96.2 h</string></property><property name="role" stdset="0"><string>numBig</string></property></widget></item></layout></widget></item>
+          <item><widget class="QFrame" name="kpiLecturas"><property name="role" stdset="0"><string>page-card</string></property><layout class="QVBoxLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>18</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>18</number></property><property name="spacing"><number>6</number></property><item><widget class="QLabel"><property name="text"><string>LECTURAS</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item><item><widget class="QLabel" name="lblKpiLecturas"><property name="text"><string>5 040</string></property><property name="role" stdset="0"><string>numBig</string></property></widget></item></layout></widget></item>
+         </layout>
+        </item>
+
+        <!-- Table -->
+        <item>
+         <widget class="QFrame" name="histTableCard"><property name="role" stdset="0"><string>page-card</string></property>
+          <layout class="QVBoxLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>22</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>22</number></property><property name="spacing"><number>10</number></property>
+           <item><widget class="QLabel"><property name="text"><string>SESIONES RECIENTES</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item>
+           <item>
+            <widget class="QTableWidget" name="tblHistorico">
+             <property name="rowCount"><number>6</number></property>
+             <property name="columnCount"><number>6</number></property>
+             <attribute name="horizontalHeaderShowSortIndicator" stdset="0"><bool>false</bool></attribute>
+             <column><property name="text"><string>FECHA</string></property></column>
+             <column><property name="text"><string>INICIO</string></property></column>
+             <column><property name="text"><string>DURACIÓN</string></property></column>
+             <column><property name="text"><string>MUESTRAS</string></property></column>
+             <column><property name="text"><string>SCORE</string></property></column>
+             <column><property name="text"><string>ESTADO</string></property></column>
+             <row><property name="text"><string/></property></row><row><property name="text"><string/></property></row><row><property name="text"><string/></property></row>
+             <row><property name="text"><string/></property></row><row><property name="text"><string/></property></row><row><property name="text"><string/></property></row>
+             <item row="0" column="0"><property name="text"><string>2026-05-10</string></property></item>
+             <item row="0" column="1"><property name="text"><string>23:04</string></property></item>
+             <item row="0" column="2"><property name="text"><string>07:12:34</string></property></item>
+             <item row="0" column="3"><property name="text"><string>5 184</string></property></item>
+             <item row="0" column="4"><property name="text"><string>78</string></property></item>
+             <item row="0" column="5"><property name="text"><string>Reparador</string></property></item>
+             <item row="1" column="0"><property name="text"><string>2026-05-09</string></property></item>
+             <item row="1" column="1"><property name="text"><string>22:48</string></property></item>
+             <item row="1" column="2"><property name="text"><string>06:48:12</string></property></item>
+             <item row="1" column="3"><property name="text"><string>4 896</string></property></item>
+             <item row="1" column="4"><property name="text"><string>71</string></property></item>
+             <item row="1" column="5"><property name="text"><string>Aceptable</string></property></item>
+             <item row="2" column="0"><property name="text"><string>2026-05-08</string></property></item>
+             <item row="2" column="1"><property name="text"><string>23:15</string></property></item>
+             <item row="2" column="2"><property name="text"><string>07:02:00</string></property></item>
+             <item row="2" column="3"><property name="text"><string>5 064</string></property></item>
+             <item row="2" column="4"><property name="text"><string>82</string></property></item>
+             <item row="2" column="5"><property name="text"><string>Reparador</string></property></item>
+             <item row="3" column="0"><property name="text"><string>2026-05-07</string></property></item>
+             <item row="3" column="1"><property name="text"><string>00:12</string></property></item>
+             <item row="3" column="2"><property name="text"><string>05:48:30</string></property></item>
+             <item row="3" column="3"><property name="text"><string>4 176</string></property></item>
+             <item row="3" column="4"><property name="text"><string>58</string></property></item>
+             <item row="3" column="5"><property name="text"><string>Intermitente</string></property></item>
+             <item row="4" column="0"><property name="text"><string>2026-05-06</string></property></item>
+             <item row="4" column="1"><property name="text"><string>23:32</string></property></item>
+             <item row="4" column="2"><property name="text"><string>06:30:00</string></property></item>
+             <item row="4" column="3"><property name="text"><string>4 680</string></property></item>
+             <item row="4" column="4"><property name="text"><string>74</string></property></item>
+             <item row="4" column="5"><property name="text"><string>Aceptable</string></property></item>
+             <item row="5" column="0"><property name="text"><string>2026-05-05</string></property></item>
+             <item row="5" column="1"><property name="text"><string>22:55</string></property></item>
+             <item row="5" column="2"><property name="text"><string>07:20:18</string></property></item>
+             <item row="5" column="3"><property name="text"><string>5 280</string></property></item>
+             <item row="5" column="4"><property name="text"><string>80</string></property></item>
+             <item row="5" column="5"><property name="text"><string>Reparador</string></property></item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- ============ PAGE 2 · CONFIGURACIÓN ============ -->
+      <widget class="QWidget" name="pageConfig">
+       <layout class="QVBoxLayout" name="cfgLayout">
+        <property name="leftMargin"><number>28</number></property><property name="topMargin"><number>24</number></property>
+        <property name="rightMargin"><number>28</number></property><property name="bottomMargin"><number>24</number></property>
+        <property name="spacing"><number>22</number></property>
+
+        <item>
+         <layout class="QVBoxLayout"><property name="spacing"><number>4</number></property>
+          <item><widget class="QLabel" name="lblCfgTitle"><property name="text"><string>Configuración</string></property><property name="role" stdset="0"><string>pageH1</string></property></widget></item>
+          <item><widget class="QLabel" name="lblCfgSub"><property name="text"><string>Ajusta rangos ideales, intervalos de muestreo y destino de datos</string></property><property name="role" stdset="0"><string>pageSub</string></property></widget></item>
+         </layout>
+        </item>
+
+        <item>
+         <layout class="QHBoxLayout" name="cfgRow"><property name="spacing"><number>22</number></property>
+
+          <!-- Captura -->
+          <item>
+           <widget class="QFrame" name="cfgCaptura"><property name="role" stdset="0"><string>page-card</string></property>
+            <layout class="QVBoxLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>22</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>22</number></property><property name="spacing"><number>14</number></property>
+             <item><widget class="QLabel"><property name="text"><string>CAPTURA</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item>
+             <item><layout class="QFormLayout"><property name="horizontalSpacing"><number>16</number></property><property name="verticalSpacing"><number>10</number></property>
+              <item row="0" column="0"><widget class="QLabel"><property name="text"><string>Intervalo (s)</string></property></widget></item>
+              <item row="0" column="1"><widget class="QSpinBox" name="spnIntervalo"><property name="minimum"><number>1</number></property><property name="maximum"><number>120</number></property><property name="value"><number>5</number></property></widget></item>
+              <item row="1" column="0"><widget class="QLabel"><property name="text"><string>Total lecturas</string></property></widget></item>
+              <item row="1" column="1"><widget class="QSpinBox" name="spnTotal"><property name="minimum"><number>10</number></property><property name="maximum"><number>100000</number></property><property name="value"><number>360</number></property></widget></item>
+              <item row="2" column="0"><widget class="QLabel"><property name="text"><string>Hora de inicio</string></property></widget></item>
+              <item row="2" column="1"><widget class="QLineEdit" name="txtInicio"><property name="text"><string>23:00</string></property></widget></item>
+              <item row="3" column="0"><widget class="QLabel"><property name="text"><string>Auto-iniciar</string></property></widget></item>
+              <item row="3" column="1"><widget class="QCheckBox" name="chkAutoStart"><property name="text"><string>al detectar oscuridad</string></property><property name="checked"><bool>true</bool></property></widget></item>
+             </layout></item>
+            </layout>
+           </widget>
+          </item>
+
+          <!-- Rangos -->
+          <item>
+           <widget class="QFrame" name="cfgRangos"><property name="role" stdset="0"><string>page-card</string></property>
+            <layout class="QVBoxLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>22</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>22</number></property><property name="spacing"><number>14</number></property>
+             <item><widget class="QLabel"><property name="text"><string>RANGOS IDEALES</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item>
+             <item><layout class="QFormLayout"><property name="horizontalSpacing"><number>16</number></property><property name="verticalSpacing"><number>10</number></property>
+              <item row="0" column="0"><widget class="QLabel"><property name="text"><string>Temp mín (°C)</string></property></widget></item>
+              <item row="0" column="1"><widget class="QDoubleSpinBox" name="spnTempMin"><property name="value"><double>18.0</double></property></widget></item>
+              <item row="1" column="0"><widget class="QLabel"><property name="text"><string>Temp máx (°C)</string></property></widget></item>
+              <item row="1" column="1"><widget class="QDoubleSpinBox" name="spnTempMax"><property name="value"><double>22.0</double></property></widget></item>
+              <item row="2" column="0"><widget class="QLabel"><property name="text"><string>Humedad mín (%)</string></property></widget></item>
+              <item row="2" column="1"><widget class="QSpinBox" name="spnHumMin"><property name="value"><number>40</number></property></widget></item>
+              <item row="3" column="0"><widget class="QLabel"><property name="text"><string>Humedad máx (%)</string></property></widget></item>
+              <item row="3" column="1"><widget class="QSpinBox" name="spnHumMax"><property name="value"><number>60</number></property></widget></item>
+              <item row="4" column="0"><widget class="QLabel"><property name="text"><string>Luz máx (lux)</string></property></widget></item>
+              <item row="4" column="1"><widget class="QSpinBox" name="spnLuxMax"><property name="value"><number>10</number></property></widget></item>
+             </layout></item>
+            </layout>
+           </widget>
+          </item>
+
+          <!-- Conexión -->
+          <item>
+           <widget class="QFrame" name="cfgConexion"><property name="role" stdset="0"><string>page-card</string></property>
+            <layout class="QVBoxLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>22</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>22</number></property><property name="spacing"><number>14</number></property>
+             <item><widget class="QLabel"><property name="text"><string>CONEXIÓN · FIRESTORE</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item>
+             <item><layout class="QFormLayout"><property name="horizontalSpacing"><number>16</number></property><property name="verticalSpacing"><number>10</number></property>
+              <item row="0" column="0"><widget class="QLabel"><property name="text"><string>Proyecto</string></property></widget></item>
+              <item row="0" column="1"><widget class="QLineEdit" name="txtProyecto"><property name="text"><string>somnus-sleep</string></property></widget></item>
+              <item row="1" column="0"><widget class="QLabel"><property name="text"><string>Colección</string></property></widget></item>
+              <item row="1" column="1"><widget class="QLineEdit" name="txtColeccion"><property name="text"><string>lecturas</string></property></widget></item>
+              <item row="2" column="0"><widget class="QLabel"><property name="text"><string>Credenciales</string></property></widget></item>
+              <item row="2" column="1"><widget class="QLineEdit" name="txtCreds"><property name="text"><string>./serviceAccount.json</string></property></widget></item>
+              <item row="3" column="0"><widget class="QLabel"><property name="text"><string>Subir en vivo</string></property></widget></item>
+              <item row="3" column="1"><widget class="QCheckBox" name="chkLive"><property name="text"><string>enviar cada lectura</string></property><property name="checked"><bool>true</bool></property></widget></item>
+             </layout></item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+
+        <item>
+         <layout class="QHBoxLayout"><property name="spacing"><number>10</number></property>
+          <item><spacer name="cfgSp"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
+          <item><widget class="QPushButton" name="btnCfgRestore"><property name="text"><string>RESTAURAR VALORES</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item>
+          <item><widget class="QPushButton" name="btnCfgGuardar"><property name="text"><string>GUARDAR CAMBIOS</string></property><property name="variant" stdset="0"><string>primary</string></property></widget></item>
+         </layout>
+        </item>
+
+        <item><spacer name="cfgVSp"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
+       </layout>
+      </widget>
+
+      <!-- ============ PAGE 3 · REPORTE ============ -->
+      <widget class="QWidget" name="pageReporte">
+       <layout class="QVBoxLayout" name="repLayout">
+        <property name="leftMargin"><number>28</number></property><property name="topMargin"><number>24</number></property>
+        <property name="rightMargin"><number>28</number></property><property name="bottomMargin"><number>24</number></property>
+        <property name="spacing"><number>22</number></property>
+
+        <item>
+         <layout class="QVBoxLayout"><property name="spacing"><number>4</number></property>
+          <item><widget class="QLabel" name="lblRepTitle"><property name="text"><string>Reporte de la noche</string></property><property name="role" stdset="0"><string>pageH1</string></property></widget></item>
+          <item><widget class="QLabel" name="lblRepSub"><property name="text"><string>Resumen de la sesión más reciente — listo para exportar</string></property><property name="role" stdset="0"><string>pageSub</string></property></widget></item>
+         </layout>
+        </item>
+
+        <item>
+         <layout class="QHBoxLayout" name="repTop"><property name="spacing"><number>22</number></property>
+          <item>
+           <widget class="QFrame" name="repResumen"><property name="role" stdset="0"><string>page-card</string></property>
+            <layout class="QVBoxLayout"><property name="leftMargin"><number>26</number></property><property name="topMargin"><number>22</number></property><property name="rightMargin"><number>26</number></property><property name="bottomMargin"><number>22</number></property><property name="spacing"><number>14</number></property>
+             <item><widget class="QLabel"><property name="text"><string>RESUMEN</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item>
+             <item><widget class="QLabel" name="lblRepScore"><property name="text"><string>78 / 100 · Reparador</string></property><property name="role" stdset="0"><string>numBig</string></property></widget></item>
+             <item><widget class="QLabel" name="lblRepFecha"><property name="text"><string>Sesión del 10 de mayo, 23:04 → 06:16  ·  duración 7h 12m</string></property><property name="role" stdset="0"><string>pageSub</string></property></widget></item>
+             <item><spacer name="repSp1"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>8</height></size></property></spacer></item>
+             <item><layout class="QHBoxLayout"><property name="spacing"><number>10</number></property>
+              <item><widget class="QFrame"><property name="role" stdset="0"><string>chip</string></property><layout class="QHBoxLayout"><property name="leftMargin"><number>12</number></property><property name="topMargin"><number>6</number></property><property name="rightMargin"><number>12</number></property><property name="bottomMargin"><number>6</number></property><item><widget class="QLabel"><property name="text"><string>Temp media  21.1 °C</string></property><property name="role" stdset="0"><string>chipText</string></property></widget></item></layout></widget></item>
+              <item><widget class="QFrame"><property name="role" stdset="0"><string>chip</string></property><layout class="QHBoxLayout"><property name="leftMargin"><number>12</number></property><property name="topMargin"><number>6</number></property><property name="rightMargin"><number>12</number></property><property name="bottomMargin"><number>6</number></property><item><widget class="QLabel"><property name="text"><string>Hum media  52 %</string></property><property name="role" stdset="0"><string>chipText</string></property></widget></item></layout></widget></item>
+              <item><widget class="QFrame"><property name="role" stdset="0"><string>chip</string></property><layout class="QHBoxLayout"><property name="leftMargin"><number>12</number></property><property name="topMargin"><number>6</number></property><property name="rightMargin"><number>12</number></property><property name="bottomMargin"><number>6</number></property><item><widget class="QLabel"><property name="text"><string>Luz media  4 lx</string></property><property name="role" stdset="0"><string>chipText</string></property></widget></item></layout></widget></item>
+              <item><widget class="QFrame"><property name="role" stdset="0"><string>chip</string></property><layout class="QHBoxLayout"><property name="leftMargin"><number>12</number></property><property name="topMargin"><number>6</number></property><property name="rightMargin"><number>12</number></property><property name="bottomMargin"><number>6</number></property><item><widget class="QLabel"><property name="text"><string>Despertares  3</string></property><property name="role" stdset="0"><string>chipText</string></property></widget></item></layout></widget></item>
+              <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
+             </layout></item>
+            </layout>
+           </widget>
+          </item>
+
+          <item>
+           <widget class="QFrame" name="repAcciones"><property name="role" stdset="0"><string>page-card</string></property><property name="maximumSize"><size><width>320</width><height>16777215</height></size></property>
+            <layout class="QVBoxLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>22</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>22</number></property><property name="spacing"><number>10</number></property>
+             <item><widget class="QLabel"><property name="text"><string>EXPORTAR</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item>
+             <item><widget class="QPushButton" name="btnRepExcel"><property name="text"><string>EXPORTAR A EXCEL</string></property><property name="variant" stdset="0"><string>primary</string></property></widget></item>
+             <item><widget class="QPushButton" name="btnRepPdf"><property name="text"><string>EXPORTAR A PDF</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item>
+             <item><widget class="QPushButton" name="btnRepCsv"><property name="text"><string>EXPORTAR A CSV</string></property><property name="variant" stdset="0"><string>ghost</string></property></widget></item>
+             <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>10</height></size></property></spacer></item>
+             <item><widget class="QLabel" name="lblRepDest"><property name="text"><string>Destino: ./reportes/</string></property><property name="role" stdset="0"><string>pageSub</string></property></widget></item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+
+        <!-- Insights -->
+        <item>
+         <widget class="QFrame" name="repInsights"><property name="role" stdset="0"><string>page-card</string></property>
+          <layout class="QVBoxLayout"><property name="leftMargin"><number>22</number></property><property name="topMargin"><number>22</number></property><property name="rightMargin"><number>22</number></property><property name="bottomMargin"><number>22</number></property><property name="spacing"><number>12</number></property>
+           <item><widget class="QLabel"><property name="text"><string>INSIGHTS · ANÁLISIS AUTOMÁTICO</string></property><property name="role" stdset="0"><string>cardTitle</string></property></widget></item>
+           <item><widget class="QLabel"><property name="text"><string>•  Temperatura mantuvo el rango ideal durante 6h 48m (94 % de la noche).</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
+           <item><widget class="QLabel"><property name="text"><string>•  Pico de movimiento detectado a las 02:31 — posible despertar parcial.</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
+           <item><widget class="QLabel"><property name="text"><string>•  Humedad ligeramente elevada (61 %) entre 03:28 y 04:02; humidificador en exceso.</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
+           <item><widget class="QLabel"><property name="text"><string>•  Mejor índice horario: 01:00 – 02:00 (score 91).</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
+          </layout>
+         </widget>
+        </item>
+
+        <item><spacer name="repVSp"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property></spacer></item>
+       </layout>
+      </widget>
+
+     </widget>
+    </item>
+
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

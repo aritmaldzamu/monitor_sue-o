@@ -6,29 +6,20 @@ Sensores:
   - DHT11 / Steren ARD-360 (GPIO 4, Pin 7)  → Temperatura + Humedad
   - PIR HC-SR501             (GPIO 24, Pin 18) → Movimiento (digital)
 
-Actuadores — Puente H L298N (fuente externa 12V para motores):
-  - IN1  → GPIO 17 (Pin 11)  │ Dirección ventilador 1
-  - IN2  → GPIO 27 (Pin 13)  │ Dirección ventilador 1
-  - ENA  → GPIO 18 (Pin 12, PWM0) │ Velocidad ventilador 1
-  - IN3  → GPIO 22 (Pin 15)  │ Dirección ventilador 2
-  - IN4  → GPIO 23 (Pin 16)  │ Dirección ventilador 2
-  - ENB  → GPIO 13 (Pin 33, PWM1) │ Velocidad ventilador 2
+Actuadores — Módulo de Relevadores (para 2 ventiladores):
+  - IN1 (Relé 1) → GPIO 17 (Pin 11) │ Enciende/apaga ventilador 1
+  - IN2 (Relé 2) → GPIO 27 (Pin 13) │ Enciende/apaga ventilador 2
 
 Pinout resumen (BCM):
   DHT11 DATA:   GPIO 4  (pin 7)
   PIR OUT:      GPIO 24 (pin 18)
-  L298N IN1:    GPIO 17 (pin 11)
-  L298N IN2:    GPIO 27 (pin 13)
-  L298N ENA:    GPIO 18 (pin 12) — PWM
-  L298N IN3:    GPIO 22 (pin 15)
-  L298N IN4:    GPIO 23 (pin 16)
-  L298N ENB:    GPIO 13 (pin 33) — PWM
+  RELAY 1 IN:   GPIO 17 (pin 11)
+  RELAY 2 IN:   GPIO 27 (pin 13)
 
 Notas:
   - El módulo ARD-360 (DHT11) ya incluye resistencia pull-up; solo 3 pines.
-  - Compartir GND de la fuente 12V con el GND del RPi.
-  - El L298N regula internamente a ~5V (si el jumper 5V_EN está puesto),
-    pero se recomienda alimentar RPi por separado.
+  - Los módulos de relé suelen ser "Active LOW" (se encienden con LOW y apagan con HIGH).
+  - Conectar los ventiladores al puerto Normalmente Abierto (NO) del relé.
 """
 
 import threading
@@ -53,15 +44,11 @@ PIN_DHT11    = 4     # GPIO 4 — Pin 7
 # PIR HC-SR501
 PIN_PIR      = 24    # GPIO 24 — Pin 18
 
-# L298N — Ventilador 1
-PIN_IN1      = 17    # GPIO 17 — Pin 11
-PIN_IN2      = 27    # GPIO 27 — Pin 13
-PIN_ENA      = 18    # GPIO 18 — Pin 12 (PWM0)
+# Módulo de Relevadores — Ventiladores
+PIN_RELAY_1  = 17    # GPIO 17 — Pin 11 (Ventilador 1)
+PIN_RELAY_2  = 27    # GPIO 27 — Pin 13 (Ventilador 2)
 
-# L298N — Ventilador 2
-PIN_IN3      = 22    # GPIO 22 — Pin 15
-PIN_IN4      = 23    # GPIO 23 — Pin 16
-PIN_ENB      = 13    # GPIO 13 — Pin 33 (PWM1)
+# (Los pines L298N fueron eliminados)
 
 # Servos SG90 / similares
 PIN_SERVO_1  = 5     # GPIO 5 — Pin 29
@@ -83,7 +70,7 @@ class HardwareReal:
     Componentes:
       - DHT11 (ARD-360) → temperatura y humedad
       - PIR HC-SR501     → detección de movimiento (0 = sin mov, 1 = mov)
-      - L298N + 2 ventiladores DC brushless 12V
+      - Relevadores + 2 ventiladores DC 12V
     """
 
     def __init__(self, btn_calor_callback=None, btn_frio_callback=None):
@@ -129,20 +116,14 @@ class HardwareReal:
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
 
-        # ── Ventiladores (L298N) ──────────────────────────────────────────────
-        # IN1, IN2, IN3, IN4 como salidas digitales
-        for pin in (PIN_IN1, PIN_IN2, PIN_IN3, PIN_IN4):
-            GPIO.setup(pin, GPIO.OUT, initial=GPIO.LOW)
+        # ── Ventiladores (Relevadores) ─────────────────────────────────────────
+        # Los módulos de relé suelen activarse con LOW. Inicializamos en HIGH (apagado).
+        GPIO.setup(PIN_RELAY_1, GPIO.OUT, initial=GPIO.HIGH)
+        GPIO.setup(PIN_RELAY_2, GPIO.OUT, initial=GPIO.HIGH)
 
-        # ENA — PWM ventilador 1
-        GPIO.setup(PIN_ENA, GPIO.OUT)
-        self._pwm_a = GPIO.PWM(PIN_ENA, FAN_PWM_FREQ)
-        self._pwm_a.start(0)  # Arranca apagado
-
-        # ENB — PWM ventilador 2
-        GPIO.setup(PIN_ENB, GPIO.OUT)
-        self._pwm_b = GPIO.PWM(PIN_ENB, FAN_PWM_FREQ)
-        self._pwm_b.start(0)  # Arranca apagado
+        # (PWM variables se mantienen en None porque ya no usamos L298N)
+        self._pwm_a = None
+        self._pwm_b = None
 
         # Servos: senal PWM solamente. Alimentar servos con fuente externa 5V.
         for idx, pin in ((1, PIN_SERVO_1), (2, PIN_SERVO_2)):
@@ -157,7 +138,7 @@ class HardwareReal:
         GPIO.add_event_detect(PIN_PIR, GPIO.BOTH,
                               callback=self._on_pir_change, bouncetime=200)
 
-        print("[hardware_real] GPIO inicializado (L298N + PIR).")
+        print("[hardware_real] GPIO inicializado (Relés + PIR).")
 
     def _init_dht(self):
         """Inicializar sensor DHT11 con Adafruit CircuitPython."""
@@ -239,43 +220,32 @@ class HardwareReal:
 
     def set_fan(self, state: bool, speed: int = None):
         """
-        Enciende/apaga ambos ventiladores via L298N.
-        speed: duty cycle 0–100 (solo se aplica si state=True).
+        Enciende/apaga ambos ventiladores via Relevadores.
+        speed: ignorado, ya que los relés no soportan control de velocidad.
         """
         self.fan_on = state
 
+        # Si se pasa speed, lo guardamos para compatibilidad con la UI, pero no hace nada
         if speed is not None:
             self._fan_speed = max(0, min(100, speed))
 
         if _HW_AVAILABLE:
+            # Nota: Asumiendo relé "Active LOW" (LOW = encendido, HIGH = apagado)
+            # Si tu relé es Active HIGH, cambia GPIO.LOW por GPIO.HIGH abajo, y viceversa.
             if state:
-                # Sentido horario: IN1=HIGH, IN2=LOW
-                GPIO.output(PIN_IN1, GPIO.HIGH)
-                GPIO.output(PIN_IN2, GPIO.LOW)
-                self._pwm_a.ChangeDutyCycle(self._fan_speed)
-
-                GPIO.output(PIN_IN3, GPIO.HIGH)
-                GPIO.output(PIN_IN4, GPIO.LOW)
-                self._pwm_b.ChangeDutyCycle(self._fan_speed)
+                GPIO.output(PIN_RELAY_1, GPIO.LOW)  # Encender
+                GPIO.output(PIN_RELAY_2, GPIO.LOW)  # Encender
             else:
-                # Frenar: IN1=LOW, IN2=LOW → salida 0V
-                GPIO.output(PIN_IN1, GPIO.LOW)
-                GPIO.output(PIN_IN2, GPIO.LOW)
-                self._pwm_a.ChangeDutyCycle(0)
-
-                GPIO.output(PIN_IN3, GPIO.LOW)
-                GPIO.output(PIN_IN4, GPIO.LOW)
-                self._pwm_b.ChangeDutyCycle(0)
+                GPIO.output(PIN_RELAY_1, GPIO.HIGH) # Apagar
+                GPIO.output(PIN_RELAY_2, GPIO.HIGH) # Apagar
 
         print(f"[hardware_real] Ventiladores -> "
               f"{'ON (' + str(self._fan_speed) + '%)' if state else 'OFF'}")
 
     def set_fan_speed(self, speed: int):
-        """Ajusta la velocidad (0-100%) sin cambiar el estado on/off."""
+        """Ajusta la velocidad (0-100%) - Ignorado en relés, guardado para compatibilidad UI."""
         self._fan_speed = max(0, min(100, speed))
-        if self.fan_on and _HW_AVAILABLE:
-            self._pwm_a.ChangeDutyCycle(self._fan_speed)
-            self._pwm_b.ChangeDutyCycle(self._fan_speed)
+        # Con relés no podemos cambiar el DutyCycle
         print(f"[hardware_real] Velocidad ventiladores -> {self._fan_speed}%")
 
     def set_servo_angle(self, servo_id: int, angle: float):
@@ -335,10 +305,7 @@ class HardwareReal:
         if _HW_AVAILABLE:
             # Apagar ventiladores
             self.set_fan(False)
-            if self._pwm_a:
-                self._pwm_a.stop()
-            if self._pwm_b:
-                self._pwm_b.stop()
+            # (PWMs de L298N eliminados)
             for pwm in self._servo_pwm.values():
                 pwm.ChangeDutyCycle(0)
                 pwm.stop()

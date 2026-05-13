@@ -9,18 +9,18 @@ Esta guía detalla cómo conectar cada sensor y actuador a los pines GPIO (BCM) 
 | **DHT11 (Temp/Hum)** | GPIO 4 | Pin 7 | Conectar a 3.3V o 5V y GND. |
 | **PIR HC-SR501** | GPIO 24 | Pin 18 | Conectar a 5V y GND. La señal es de 3.3V. |
 
-## 2. Actuadores (Ventiladores via L298N)
+## 2. Actuadores (Módulo de Relevadores para Ventiladores)
 
-El L298N requiere una fuente externa (ej. 12V). **Recuerda unir el GND de la fuente con el GND de la Raspberry Pi.**
+Los ventiladores se controlarán mediante un módulo de relevadores de 4 canales. Utilizaremos solo 2 canales (IN1 e IN2).
+**Importante:** Conecta los ventiladores al puerto Normalmente Abierto (NO) del relé para que estén apagados por defecto. 
+Si el relé requiere alimentación separada, recuerda compartir el GND.
 
-| L298N Pin | Pin BCM | Pin Físico | Función |
+| Módulo Relé Pin | Pin BCM | Pin Físico | Función |
 | :--- | :--- | :--- | :--- |
-| **ENA** | GPIO 18 | Pin 12 | Velocidad Ventilador 1 (PWM) |
-| **IN1** | GPIO 17 | Pin 11 | Dirección Ventilador 1 |
-| **IN2** | GPIO 27 | Pin 13 | Dirección Ventilador 1 |
-| **ENB** | GPIO 13 | Pin 33 | Velocidad Ventilador 2 (PWM) |
-| **IN3** | GPIO 22 | Pin 15 | Dirección Ventilador 2 |
-| **IN4** | GPIO 23 | Pin 16 | Dirección Ventilador 2 |
+| **IN1 (Relé 1)** | GPIO 17 | Pin 11 | Enciende/Apaga Ventilador 1 |
+| **IN2 (Relé 2)** | GPIO 27 | Pin 13 | Enciende/Apaga Ventilador 2 |
+| **VCC** | - | 5V | Alimentación del módulo (5V de la RPi) |
+| **GND** | - | GND | GND de la RPi |
 
 ## 3. Servos SG90
 
